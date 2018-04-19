@@ -6,3 +6,8 @@
 .settings
 .metadata
 target
+.vs/VSWorkspaceState.json
+.vs/slnx.sqlite
+.vs/ProjectSettings.json
+.vs/plugin-hibersap-sopra/v15/.suo
+.sts4-cache/classpath-data.json
