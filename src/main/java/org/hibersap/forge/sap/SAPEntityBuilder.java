@@ -21,6 +21,7 @@ package org.hibersap.forge.sap;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.hibersap.HibersapException;
 import org.hibersap.annotations.Bapi;
@@ -233,7 +234,7 @@ public class SAPEntityBuilder {
 	private JavaClass createStructureClass(final String javaPackage, final ParameterMapping parameterMapping) {
 		final String className = SAPEntityBuilder.convertFieldNameToClassName(parameterMapping.getJavaName());
 		final JavaClass structureClass = createJavaClass(className, javaPackage);
-		final Set<FieldMapping> fieldMappings;
+		final Set<? extends ParameterMapping> fieldMappings;
 
 		structureClass.addAnnotation(BapiStructure.class);
 
@@ -250,7 +251,8 @@ public class SAPEntityBuilder {
 			throw new HibersapException("Parameter type not expected: " + parameterMapping.getParamType());
 		}
 
-		for (final FieldMapping fieldMapping : fieldMappings) {
+		for (final ParameterMapping parameter : fieldMappings) {
+			final FieldMapping fieldMapping = (FieldMapping) parameter;
 			final Field<JavaClass> field = structureClass.addField();
 			field.setName(fieldMapping.getJavaName());
 			field.setType(fieldMapping.getAssociatedType());
